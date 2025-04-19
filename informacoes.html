@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Painel da Rifa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 18px;
+            margin: 16px 0;
+            font-size: 1.4rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-top: 20px;
+        }
+
+        .sucesso { color: green; }
+        .erro { color: red; }
+
+        .oculto {
+            display: none;
+        }
+
+        .rifa-lista .rifa-item {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .rifa-lista .rifa-item summary {
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+
+        .rifa-lista .rifa-item div {
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .botoes-voltar {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .botoes-voltar button {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Painel da Rifa</h2>
+        <div id="painel" class="oculto">
+            <h3>Bem-vindo, <span id="donoSpan"></span></h3>
+            <div style="text-align: right;">
+                <button class="red" onclick="fazerLogout()">Sair</button>
+            </div>
+
+            <h4>Criar nova rifa</h4>
+            <input type="text" id="nomeRifa" placeholder="ex: celular, camisa, etc" />
+            <input type="number" id="quantidade" value="100" min="1" />
+            <button onclick="criarRifa()">(De 1 a 3min) Criar Rifa</button>
+            <div id="mensagemCriacao" class="msg sucesso"></div>
+
+            <div id="senhaUnica" class="oculto">
+                <div>🔐 Senha para o comprador:</div>
+                <strong id="senhaAtual">---</strong><br />
+                <button onclick="mostrarOutraSenha()">Mostrar outra senha</button>
+                <button class="blue" onclick="mostrarTodasSenhas()">Ver todas as senhas</button>
+            </div>
+
+            <textarea id="todasSenhas" class="oculto" rows="8" readonly></textarea>
+
+            <h4 style="margin-top:30px;">Minhas Rifas</h4>
+            <div id="listaRifas" class="rifa-lista"></div>
+        </div>
+
+        <div id="paginaRifa" class="oculto">
+            <h3 style="text-align: center;">🎟️ Senhas da Rifa</h3>
+            <div id="infoRifaSelecionada" style="text-align:center; margin-bottom: 10px;"></div>
+            <textarea id="senhasRifaSelecionada" readonly rows="10" style="width: 100%; margin-bottom: 10px;"></textarea>
+            <div class="botoes-voltar">
+                <button class="blue" onclick="copiarSenhas()">📋 Copiar Senhas</button>
+                <button class="red" onclick="voltarParaPainel()">🔙 Voltar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbw_SlmPO8PX_2xu7SNdTFhXY5HVSAgO1k36Hu2ba9t-mRea0VMiMZFWwDUR3vZO4MtL/exec";
+        let dono = "";
+        let senhasDisponiveis = [];
+        let senhaIndex = 0;
+        const painelDiv = document.getElementById("painel");
+        const paginaRifaDiv = document.getElementById("paginaRifa");
+        const loginDiv = document.getElementById("login"); // Referência ao div de login (pode não existir nesta página, cuidado ao usar)
+
+        function fazerLogout() {
+            dono = "";
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "login.html"; // Redireciona para a página de login após o logout
+        }
+
+        function criarRifa() {
+            const nomeRifa = document.getElementById("nomeRifa").value.trim();
+            const qtd = document.getElementById("quantidade").value;
+            if (!nomeRifa || !qtd) return;
+            fetch(`${scriptURL}?acao=criarRifa&dono=${dono}&qtd=${qtd}&nome=${nomeRifa}`, { method: "POST" })
+                .then(res => res.text())
+                .then(msg => {
+                    document.getElementById("mensagemCriacao").innerText = msg;
+                    carregarRifas();
+                    carregarSenhas();
+                });
+        }
+
+        function carregarRifas() {
+            fetch(`${scriptURL}?acao=listarRifas&dono=${dono}`, { method: "POST" })
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("listaRifas");
+                    container.innerHTML = "";
+                    data.rifas.forEach(rifa => {
+                        const nomeRifa = rifa.nomeRifa;
+                        const nomeCompleto = rifa.nomeCompleto;
+                        const item = document.createElement("details");
+                        item.className = "rifa-item";
+                        item.innerHTML = `
+                            <summary>${nomeRifa}</summary>
+                            <div>
+                                <a href="informacoes.html?rifa=${nomeCompleto}">🔗 Acessar link do comprador</a><br>
+                                <button onclick="excluirRifa('${nomeCompleto}')" class="red" style="margin-top:5px;">Excluir</button>
+                            </div>
+                        `;
+                        container.appendChild(item);
+                    });
+                });
+        }
+
+        function excluirRifa(nome) {
+            if (confirm("Tem certeza que deseja excluir esta rifa?")) {
+                fetch(`${scriptURL}?acao=excluirRifa&dono=${dono}&rifa=${nome}`, { method: "POST" })
+                    .then(res => res.text())
+                    .then(msg => {
+                        alert(msg);
+                        carregarRifas();
+                    });
+            }
+        }
+
+        function carregarSenhas() {
+            fetch(`${scriptURL}?acao=listarSenhas&dono=${dono}`, { method: "POST" })
+                .then(res => res.json())
+                .then(data => {
+                    senhasDisponiveis = data.senhas || [];
+                    senhaIndex = 0;
+                    mostrarSenhaAtual();
+                });
+        }
+
+        function mostrarSenhaAtual() {
+            if (senhasDisponiveis.length > 0) {
+                document.getElementById("senhaUnica").classList.remove("oculto");
+                document.getElementById("senhaAtual").innerText = senhasDisponiveis[senhaIndex];
+            } else {
+                document.getElementById("senhaUnica").classList.add("oculto");
+            }
+        }
+
+        function mostrarOutraSenha() {
+            if (senhasDisponiveis.length > 0) {
+                senhaIndex = (senhaIndex + 1) % senhasDisponiveis.length;
+                mostrarSenhaAtual();
+            }
+        }
+
+        function mostrarTodasSenhas() {
+            if (senhasDisponiveis.length > 0) {
+                document.getElementById("todasSenhas").classList.remove("oculto");
+                document.getElementById("todasSenhas").value = senhasDisponiveis.join("\n");
+            }
+        }
+
+        function copiarSenhas() {
+            const textarea = document.getElementById("senhasRifaSelecionada");
+            textarea.select();
+            document.execCommand("copy");
+            alert("Senhas copiadas!");
+        }
+
+        function voltarParaPainel() {
+            paginaRifaDiv.classList.add("oculto");
+            painelDiv.classList.remove("oculto");
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const salvo = localStorage.getItem("usuarioLogado");
+            const params = new URLSearchParams(window.location.search);
+            const rifa = params.get("rifa");
+
+            if (salvo) {
+                dono = salvo;
+                document.getElementById("donoSpan").innerText = dono;
+                painelDiv.classList.remove("oculto");
+                if (loginDiv) loginDiv.classList.add("oculto"); // Esconde a tela de login se existir
+
+                if (rifa) {
+                    painelDiv.classList.add("oculto");
+                    paginaRifaDiv.classList.remove("oculto");
+
+                    const urlCliente = `${window.location.origin}/rifa/rifa.html?rifa=${rifa}`;
+                    const urlSorteio = `${window.location.origin}/rifa/sorteio.html?rifa=${rifa}`;
+
+                    document.getElementById("infoRifaSelecionada").innerHTML = `
+                        🔐 Rifa: <strong>${rifa}</strong><br><br>
+                        🔗 Link do comprador:<br>
+                        <a href="${urlCliente}" target="_blank">${urlCliente}</a><br><br>
+                        🎰 Link do sorteio:<br>
+                        <a href="${urlSorteio}" target="_blank">${urlSorteio}</a>
+                    `;
+
+                    const donoFormatado = rifa.replace(/^rifa-/, "").trim();
+
+                    fetch(`${scriptURL}?acao=listarSenhas&dono=${donoFormatado}`, { method: "POST" })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (!data || !Array.isArray(data.senhas)) {
+                                throw new Error("Formato inválido.");
+                            }
+                            document.getElementById("senhasRifaSelecionada").value = data.senhas.join("\n");
+                        })
+                        .catch(() => {
+                            document.getElementById("senhasRifaSelecionada").value = "❌ Não foi possível encontrar a aba de senhas: senhas-" + donoFormatado;
+                        });
+                } else {
+                    paginaRifaDiv.classList.add("oculto");
+                    carregarRifas();
+                    carregarSenhas();
+                }
+
+            } else {
+                // Se não estiver logado, redirecionar para a página de login
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>

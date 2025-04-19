@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 18px;
+            margin: 16px 0;
+            font-size: 1.4rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-top: 20px;
+        }
+
+        .sucesso { color: green; }
+        .erro { color: red; }
+
+        .oculto {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Painel da Rifa</h2>
+        <div id="cadastro" class="">
+            <h3>Criar novo dono</h3>
+            <input type="email" id="novoEmail" placeholder="email@rifa.com" />
+            <input type="password" id="novaSenha" placeholder="Senha de 8 dígitos" />
+            <button id="cadastrarButton">Cadastrar Dono</button>
+            <div id="msgCadastro" class="msg"></div>
+            <hr />
+            <div style="text-align:center; margin-top: 10px;">
+                <a href="login.html">Voltar para o Login</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbw_SlmPO8PX_2xu7SNdTFhXY5HVSAgO1k36Hu2ba9t-mRea0VMiMZFWwDUR3vZO4MtL/exec";
+
+        function cadastrarDono() {
+            const email = document.getElementById("novoEmail").value.trim();
+            const senha = document.getElementById("novaSenha").value.trim();
+            if (!email.endsWith("@rifa.com") || senha.length !== 8) {
+                document.getElementById("msgCadastro").innerHTML = "❌ Email deve terminar com @rifa.com e senha com 8 dígitos.";
+                return;
+            }
+            fetch(`${scriptURL}?acao=cadastrarDono&email=${email}&senha=${senha}`, { method: "POST" })
+                .then(res => res.text())
+                .then(msg => {
+                    document.getElementById("msgCadastro").innerHTML = `<span class='sucesso'>${msg}</span>`;
+                    document.getElementById("novoEmail").value = "";
+                    document.getElementById("novaSenha").value = "";
+                });
+        }
+
+        document.getElementById("cadastrarButton").onclick = cadastrarDono;
+    </script>
+</body>
+</html>
