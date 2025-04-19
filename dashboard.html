@@ -82,6 +82,11 @@
       margin-top: 10px;
     }
 
+    .container {
+  width: 100%;
+  max-width: 600px;
+}
+
     .sucesso { color: var(--verde); }
     .erro { color: var(--vermelho); }
     .oculto { display: none; }
@@ -112,43 +117,36 @@
     }
 
     @media screen and (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
   .container {
     padding: 20px;
-    margin: 10px;
-    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
   }
 
   h2 {
-    font-size: 1.6em;
+    font-size: 1.8em;
   }
 
-  h3 {
-    font-size: 1.4em;
+  h3, h4 {
+    font-size: 1.5em;
   }
 
-  h4 {
+  input, button, textarea {
     font-size: 1.2em;
-  }
-
-  input, button, textarea, select {
-    font-size: 1.1em;
-    padding: 14px;
-  }
-
-  .botoes-voltar {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .botoes-voltar button {
-    width: 100%;
-    font-size: 1.1em;
+    padding: 16px;
   }
 
   .msg {
-    font-size: 1.1em;
+    font-size: 1.2em;
   }
 }
+
   </style>
 </head>
 <body>
