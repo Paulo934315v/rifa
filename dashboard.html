@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <title>Painel da Rifa</title>
   <style>
-    body {
+   body {
   font-family: Arial, sans-serif;
-  background: #f5f5f5;
   margin: 0;
-  padding: 0;
+  background: #f5f5f5;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -16,47 +15,68 @@
 }
 
 .container {
+  background: #fff;
   width: 100%;
   max-width: 100%;
   padding: 40px 20px;
-  background: #fff;
   box-shadow: none;
   border-radius: 0;
 }
 
 h2 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   text-align: center;
   margin-bottom: 30px;
 }
 
-input, select, button, textarea {
-  width: 100%;
-  margin: 16px 0;
-  padding: 20px;
+h3 {
   font-size: 1.6rem;
-  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 18px;
+  margin: 16px 0;
+  font-size: 1.4rem;
   border-radius: 8px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
 }
 
 button {
-  background: #007bff;
-  color: white;
+  width: 100%;
+  padding: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
+  border-radius: 8px;
   border: none;
+  background-color: #007bff;
+  color: white;
   transition: background 0.3s ease;
 }
 
 button:hover {
-  background: #0056b3;
+  background-color: #0056b3;
 }
 
-.sucesso, .erro {
+a {
+  display: block;
   text-align: center;
   margin-top: 20px;
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.msg {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 20px;
 }
 
 .sucesso { color: green; }
@@ -64,25 +84,6 @@ button:hover {
 
 .oculto {
   display: none;
-}
-
-@media (max-width: 600px) {
-  .container {
-    padding: 40px 16px;
-  }
-
-  h2 {
-    font-size: 2.2rem;
-  }
-
-  input, select, button, textarea {
-    font-size: 1.5rem;
-    padding: 18px;
-  }
-
-  .sucesso, .erro {
-    font-size: 1.4rem;
-  }
 }
 
   </style>
