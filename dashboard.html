@@ -129,6 +129,17 @@
         <button class="red" onclick="fazerLogout()">Sair</button>
       </div>
 
+      <div id="paginaRifa" class="oculto">
+        <h3 style="text-align: center;">🎟️ Senhas da Rifa</h3>
+        <div id="infoRifaSelecionada" style="text-align:center; margin-bottom: 10px;"></div>
+        <textarea id="senhasRifaSelecionada" readonly rows="10" style="width: 100%; margin-bottom: 10px;"></textarea>
+        <div style="display: flex; justify-content: space-between; gap: 10px;">
+          <button onclick="copiarSenhas()" class="blue">📋 Copiar Senhas</button>
+          <button onclick="voltarParaPainel()" class="red">🔙 Voltar</button>
+        </div>
+      </div>
+      
+
       <h4>Criar nova rifa</h4>
       <input type="text" id="nomeRifa" placeholder="ex: celular, camisa, etc" />
       <input type="number" id="quantidade" value="100" min="1" />
@@ -312,6 +323,55 @@
         document.getElementById("todasSenhas").value = senhasDisponiveis.join("\n");
       }
     }
+    // Verifica se foi passado ?rifa= no URL
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const rifa = params.get("rifa");
+
+  if (rifa) {
+    document.getElementById("login").classList.add("oculto");
+    document.getElementById("cadastro").classList.add("oculto");
+    document.getElementById("painel").classList.add("oculto");
+    document.getElementById("paginaRifa").classList.remove("oculto");
+
+    const urlCliente = `${window.location.origin}/rifa/index.html?rifa=${rifa}`;
+    const urlSorteio = `${window.location.origin}/rifa/sorteio.html?rifa=${rifa}`;
+
+    document.getElementById("infoRifaSelecionada").innerHTML = `
+      🔐 Rifa: <strong>${rifa}</strong><br><br>
+      🔗 Link do comprador:<br>
+      <a href="${urlCliente}" target="_blank">${urlCliente}</a><br><br>
+      🎰 Link do sorteio:<br>
+      <a href="${urlSorteio}" target="_blank">${urlSorteio}</a>
+    `;
+
+    const donoFormatado = rifa.replace(/^rifa-/, "").trim();
+
+    fetch(`${scriptURL}?acao=listarSenhas&dono=${donoFormatado}`, { method: "POST" })
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !Array.isArray(data.senhas)) {
+          throw new Error("Formato inválido.");
+        }
+        document.getElementById("senhasRifaSelecionada").value = data.senhas.join("\n");
+      })
+      .catch(() => {
+        document.getElementById("senhasRifaSelecionada").value = "❌ Não foi possível encontrar a aba de senhas: senhas-" + donoFormatado;
+      });
+  }
+});
+
+function copiarSenhas() {
+  const textarea = document.getElementById("senhasRifaSelecionada");
+  textarea.select();
+  document.execCommand("copy");
+  alert("Senhas copiadas!");
+}
+
+function voltarParaPainel() {
+  window.location.href = window.location.pathname;
+}
+
   </script>
 </body>
 </html>
