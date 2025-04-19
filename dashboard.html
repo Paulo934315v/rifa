@@ -4,119 +4,115 @@
   <meta charset="UTF-8" />
   <title>Painel da Rifa</title>
   <style>
-    :root {
-      --azul: #007bff;
-      --verde: #28a745;
-      --vermelho: #dc3545;
-      --roxo: #6f42c1;
-      --preto: #222;
-      --branco: #fff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--branco);
-      color: var(--preto);
-      padding: 20px;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .container {
-      background: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 600px;
-      max-height: 100%;
-      overflow-y: auto;
-      padding: 25px;
-      margin-top: 20px;
-    }
-
-    h2, h3, h4 {
-      text-align: center;
-      color: var(--preto);
-      margin: 10px 0;
-    }
-
-    input, button, textarea, select {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      font-size: 1em;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-
-    button {
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn-verde, .green { background: var(--verde); color: white; }
-    .btn-verde:hover, .green:hover { background: #218838; }
-
-    .btn-vermelho, .red { background: var(--vermelho); color: white; }
-    .btn-vermelho:hover, .red:hover { background: #c82333; }
-
-    .btn-azul, .blue { background: var(--azul); color: white; }
-    .btn-azul:hover, .blue:hover { background: #0069d9; }
-
-    .btn-roxo, .purple { background: var(--roxo); color: white; }
-    .btn-roxo:hover, .purple:hover { background: #5936a2; }
-
-    .msg {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    .container {
-  width: 100%;
-  max-width: 600px;
+:root {
+  --azul: #007bff;
+  --verde: #28a745;
+  --vermelho: #dc3545;
+  --roxo: #6f42c1;
+  --preto: #222;
+  --branco: #fff;
 }
 
-    .sucesso { color: var(--verde); }
-    .erro { color: var(--vermelho); }
-    .oculto { display: none; }
+* {
+  box-sizing: border-box;
+}
 
-    .rifa-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--branco);
+  color: var(--preto);
+  padding: 20px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-    .rifa-item {
-      background: var(--branco);
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 10px;
-    }
+.container {
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 25px;
+  margin-top: 20px;
+}
 
-    .rifa-item summary {
-      font-weight: bold;
-      cursor: pointer;
-    }
+h2, h3, h4 {
+  text-align: center;
+  color: var(--preto);
+  margin: 10px 0;
+}
 
-    .botoes-voltar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-between;
-    }
+input, button, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 1.1em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
 
-    @media screen and (max-width: 600px) {
+button {
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-verde, .green { background: var(--verde); color: white; }
+.btn-verde:hover, .green:hover { background: #218838; }
+
+.btn-vermelho, .red { background: var(--vermelho); color: white; }
+.btn-vermelho:hover, .red:hover { background: #c82333; }
+
+.btn-azul, .blue { background: var(--azul); color: white; }
+.btn-azul:hover, .blue:hover { background: #0069d9; }
+
+.btn-roxo, .purple { background: var(--roxo); color: white; }
+.btn-roxo:hover, .purple:hover { background: #5936a2; }
+
+.msg {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+.sucesso { color: var(--verde); }
+.erro { color: var(--vermelho); }
+.oculto { display: none; }
+
+.rifa-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rifa-item {
+  background: var(--branco);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.rifa-item summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.botoes-voltar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
   .container {
     padding: 20px;
     margin: 10px;
@@ -149,11 +145,8 @@
     width: 100%;
     font-size: 1.1em;
   }
-
-  .msg {
-    font-size: 1.1em;
-  }
 }
+
   </style>
 </head>
 <body>
