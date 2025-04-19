@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Rifa por Número</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:first-of-type {
+      background-color: #6f42c1; /* Roxo */
+      color: white;
+    }
+
+    #formulario button {
+      background-color: #28a745; /* Verde */
+      color: white;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .erro {
+      color: red;
+    }
+
+    .sucesso {
+      color: green;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Escolher número da rifa</h2>
+
+    <label>Senha de acesso:</label>
+    <input type="text" id="senha" placeholder="Digite a senha fornecida" />
+    <button onclick="verificarSenha()">Validar Senha</button>
+
+    <div id="formulario" class="oculto">
+      <label>Número:</label>
+      <select id="numero"></select>
+
+      <label>Nome:</label>
+      <input type="text" id="nome" />
+
+      <label>Telefone:</label>
+      <input type="text" id="telefone" />
+
+      <label>Email (opcional):</label>
+      <input type="email" id="email" />
+
+      <button onclick="enviar()">Confirmar Reserva</button>
+    </div>
+
+    <div id="mensagem" class="msg"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
