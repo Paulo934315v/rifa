@@ -198,7 +198,7 @@
                         item.innerHTML = `
                             <summary>${nomeRifa}</summary>
                             <div>
-                                <a href="informacoes.html?rifa=${nomeCompleto}">🔗 Acessar link do comprador</a><br>
+                                <a href="informacoes.html?rifa=${nomeCompleto}">🔗 Acessar informações da RIFA/a><br>
                                 <button onclick="excluirRifa('${nomeCompleto}')" class="red" style="margin-top:5px;">Excluir</button>
                             </div>
                         `;
@@ -283,9 +283,9 @@
 
                     document.getElementById("infoRifaSelecionada").innerHTML = `
                         🔐 Rifa: <strong>${rifa}</strong><br><br>
-                        🔗 Link do comprador:<br>
+                        🔗 Link para o comprador:<br>
                         <a href="${urlCliente}" target="_blank">${urlCliente}</a><br><br>
-                        🎰 Link do sorteio:<br>
+                        🎰 Link para o sorteio:<br>
                         <a href="${urlSorteio}" target="_blank">${urlSorteio}</a>
                     `;
 
