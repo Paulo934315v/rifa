@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Rifa por Número</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <style>
         * {
             box-sizing: border-box;
@@ -108,21 +107,21 @@
     <div class="container">
         <h2>Escolher número da rifa</h2>
 
-        <label>Senha de acesso:</label>
+        <label for="senha">Senha de acesso:</label>
         <input type="text" id="senha" placeholder="Digite a senha fornecida" />
         <button onclick="verificarSenha()">Validar Senha</button>
 
         <div id="formulario" class="oculto">
-            <label>Número:</label>
+            <label for="numero">Número:</label>
             <select id="numero"></select>
 
-            <label>Nome:</label>
+            <label for="nome">Nome:</label>
             <input type="text" id="nome" />
 
-            <label>Telefone:</label>
+            <label for="telefone">Telefone:</label>
             <input type="text" id="telefone" />
 
-            <label>Email (opcional):</label>
+            <label for="email">Email (opcional):</label>
             <input type="email" id="email" />
 
             <button onclick="enviar()">Confirmar Reserva</button>
@@ -207,6 +206,10 @@
             .then(data => {
                 document.getElementById("mensagem").innerText = data.mensagem;
                 document.getElementById("formulario").classList.add("oculto");
+                // Limpa o campo da senha e reexibe os elementos de login
+                document.getElementById("senha").value = "";
+                document.getElementById("senha").classList.remove("oculto");
+                document.querySelector('button:first-of-type').classList.remove("oculto");
             })
             .catch(() => {
                 document.getElementById("mensagem").innerText = "❌ Erro ao reservar o número.";
