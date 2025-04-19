@@ -136,11 +136,18 @@
         // Extrai o nome da rifa da URL (?rifa=paulo-a)
         const params = new URLSearchParams(window.location.search);
         const rifa = params.get("rifa");
+        let senhaUsada = null; // Variável para controlar a senha usada na sessão
 
         function verificarSenha() {
             const senha = document.getElementById("senha").value.trim();
             if (!senha || !rifa) {
                 alert("Senha ou link inválido.");
+                return;
+            }
+
+            // Verifica se a senha já foi usada nesta sessão
+            if (senhaUsada === senha) {
+                document.getElementById("mensagem").innerText = "❌ Esta senha já foi utilizada.";
                 return;
             }
 
@@ -153,6 +160,7 @@
                         document.getElementById("mensagem").innerText = "✔️ Senha validada!";
                         document.getElementById("senha").classList.add("oculto");
                         document.querySelector('button:first-of-type').classList.add("oculto");
+                        senhaUsada = senha; // Armazena a senha usada
                     } else {
                         document.getElementById("mensagem").innerText = "❌ Senha inválida.";
                     }
@@ -181,26 +189,16 @@
             const numero = document.getElementById("numero").value;
             const nome = document.getElementById("nome").value.trim();
             const telefone = document.getElementById("telefone").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const senha = document.getElementById("senha").value.trim(); // Captura a senha novamente
 
             if (!numero || !nome || !telefone) {
                 alert("Preencha todos os campos obrigatórios.");
                 return;
             }
 
-            const formData = new FormData();
-            formData.append('acao', 'reservar');
-            formData.append('rifa', rifa);
-            formData.append('numero', numero);
-            formData.append('nome', nome);
-            formData.append('telefone', telefone);
-            const email = document.getElementById("email").value.trim();
-            if (email) {
-                formData.append('email', email);
-            }
-
-            fetch(scriptURL, {
-                method: 'POST',
-                body: formData
+            fetch(`${scriptURL}?acao=reservar&rifa=${rifa}&numero=${numero}&nome=${nome}&telefone=${telefone}&email=${email}&senha=${senha}`, {
+                method: "POST"
             })
             .then(res => res.json())
             .then(data => {
@@ -210,6 +208,7 @@
                 document.getElementById("senha").value = "";
                 document.getElementById("senha").classList.remove("oculto");
                 document.querySelector('button:first-of-type').classList.remove("oculto");
+                senhaUsada = null; // Reseta a senha usada para permitir novo acesso (se necessário)
             })
             .catch(() => {
                 document.getElementById("mensagem").innerText = "❌ Erro ao reservar o número.";
