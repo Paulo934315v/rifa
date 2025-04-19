@@ -93,72 +93,187 @@
       cursor: pointer;
     }
 
-    @media screen and (max-width: 600px) {
-      .container {
-        margin: 10px;
+    .botoes-voltar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 600px) {
+      .botoes-voltar button {
+        flex: 1 1 100%;
       }
     }
   </style>
 </head>
+<style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+  
+    .container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      box-shadow: 0 0 15px #ccc;
+      border-radius: 12px;
+      background: #f9f9f9;
+      text-align: center;
+    }
+  
+    h2, h3, h4 {
+      margin: 10px 0;
+      color: #222;
+    }
+  
+    input, button, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+  
+    button {
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+  
+    .btn-verde {
+      background: #28a745;
+      color: white;
+    }
+  
+    .btn-verde:hover {
+      background: #218838;
+    }
+  
+    .btn-vermelho {
+      background: #dc3545;
+      color: white;
+    }
+  
+    .btn-vermelho:hover {
+      background: #c82333;
+    }
+  
+    .btn-azul {
+      background: #007bff;
+      color: white;
+    }
+  
+    .btn-azul:hover {
+      background: #0069d9;
+    }
+  
+    .btn-roxo {
+      background: #6f42c1;
+      color: white;
+    }
+  
+    .btn-roxo:hover {
+      background: #5936a1;
+    }
+  
+    .msg {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  
+    .sucesso {
+      color: green;
+    }
+  
+    .erro {
+      color: red;
+    }
+  
+    .oculto {
+      display: none;
+    }
+  
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 10px;
+      }
+  
+      input, button, textarea {
+        font-size: 1em;
+      }
+    }
+  </style>
+  
 <body>
-  <div class="container">
-    <h2>Painel da Rifa</h2>
+    <div class="container">
+  <h2>Painel da Rifa</h2>
 
-    <div id="login">
-      <h3>Login</h3>
-      <input type="email" id="email" placeholder="email@rifa.com" />
-      <input type="password" id="senhaLogin" placeholder="Senha" />
-      <button onclick="fazerLogin()">Entrar</button>
-      <div id="mensagemLogin" class="msg erro"></div>
-      <div style="text-align:center; margin-top: 10px;">
-        <a href="#" onclick="mostrarCadastro()">Clique aqui para se cadastrar</a>
-      </div>
-    </div>
-
-    <div id="cadastro" class="oculto">
-      <h3>Criar novo dono</h3>
-      <input type="email" id="novoEmail" placeholder="email@rifa.com" />
-      <input type="password" id="novaSenha" placeholder="Senha de 8 dígitos" />
-      <button onclick="cadastrarDono()">Cadastrar Dono</button>
-      <div id="msgCadastro" class="msg"></div>
-    </div>
-
-    <div id="painel" class="painel oculto">
-      <h3>Bem-vindo, <span id="donoSpan"></span></h3>
-      <div style="text-align: right;">
-        <button class="red" onclick="fazerLogout()">Sair</button>
-      </div>
-
-      <div id="paginaRifa" class="oculto">
-        <h3 style="text-align: center;">🎟️ Senhas da Rifa</h3>
-        <div id="infoRifaSelecionada" style="text-align:center; margin-bottom: 10px;"></div>
-        <textarea id="senhasRifaSelecionada" readonly rows="10" style="width: 100%; margin-bottom: 10px;"></textarea>
-        <div style="display: flex; justify-content: space-between; gap: 10px;">
-          <button onclick="copiarSenhas()" class="blue">📋 Copiar Senhas</button>
-          <button onclick="voltarParaPainel()" class="red">🔙 Voltar</button>
-        </div>
-      </div>
-      
-
-      <h4>Criar nova rifa</h4>
-      <input type="text" id="nomeRifa" placeholder="ex: celular, camisa, etc" />
-      <input type="number" id="quantidade" value="100" min="1" />
-      <button onclick="criarRifa()">Criar Rifa</button>
-      <div id="mensagemCriacao" class="msg sucesso"></div>
-
-      <div id="senhaUnica" class="oculto">
-        <div>🔐 Senha para o comprador:</div>
-        <strong id="senhaAtual">---</strong><br />
-        <button onclick="mostrarOutraSenha()" class="blue">Mostrar outra senha</button>
-        <button onclick="mostrarTodasSenhas()" class="purple">Ver todas as senhas</button>
-      </div>
-
-      <textarea id="todasSenhas" class="oculto" rows="8" readonly></textarea>
-
-      <h4>Minhas Rifas</h4>
-      <div id="listaRifas" class="rifa-lista"></div>
+  <div id="login">
+    <h3>Login</h3>
+    <input type="email" id="email" placeholder="email@rifa.com" />
+    <input type="password" id="senhaLogin" placeholder="Senha" />
+    <button onclick="fazerLogin()">Entrar</button>
+    <div id="mensagemLogin" class="msg erro"></div>
+    <div style="text-align:center; margin-top: 10px;">
+      <a href="#" onclick="mostrarCadastro()">Clique aqui para se cadastrar</a>
     </div>
   </div>
+
+  <div id="cadastro" class="oculto">
+    <h3>Criar novo dono</h3>
+    <input type="email" id="novoEmail" placeholder="email@rifa.com" />
+    <input type="password" id="novaSenha" placeholder="Senha de 8 dígitos" />
+    <button onclick="cadastrarDono()">Cadastrar Dono</button>
+    <div id="msgCadastro" class="msg"></div>
+    <hr />
+  </div>
+
+  <div id="painel" class="painel oculto">
+    <h3>Bem-vindo, <span id="donoSpan"></span></h3>
+    <div style="text-align: right;">
+      <button style="background: #dc3545;" onclick="fazerLogout()">Sair</button>
+    </div>
+
+    <h4>Criar nova rifa</h4>
+    <input type="text" id="nomeRifa" placeholder="ex: celular, camisa, etc" />
+    <input type="number" id="quantidade" value="100" min="1" />
+    <button onclick="criarRifa()">(De 1 a 3min) Criar Rifa</button>
+    <div id="mensagemCriacao" class="msg sucesso"></div>
+
+    <div id="senhaUnica" class="oculto">
+      <div>🔐 Senha para o comprador:</div>
+      <strong id="senhaAtual">---</strong><br />
+      <button style="margin-top:10px;" onclick="mostrarOutraSenha()">Mostrar outra senha</button>
+      <button style="margin-top:10px; background: #007bff;" onclick="mostrarTodasSenhas()">Ver todas as senhas</button>
+    </div>
+
+    <textarea id="todasSenhas" class="oculto" rows="8" readonly></textarea>
+
+    <h4 style="margin-top:30px;">Minhas Rifas</h4>
+    <div id="listaRifas" class="rifa-lista"></div>
+  </div>
+
+  <div id="paginaRifa" class="oculto">
+    <h3 style="text-align: center;">🎟️ Senhas da Rifa</h3>
+    <div id="infoRifaSelecionada" style="text-align:center; margin-bottom: 10px;"></div>
+    <textarea id="senhasRifaSelecionada" readonly rows="10" style="width: 100%; margin-bottom: 10px;"></textarea>
+    <div style="display: flex; justify-content: space-between; gap: 10px;">
+      <button onclick="copiarSenhas()" style="background:#007bff;">📋 Copiar Senhas</button>
+      <button onclick="voltarParaPainel()" style="background:#dc3545;">🔙 Voltar</button>
+    </div>
+  </div>
+</div>
 
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbw_SlmPO8PX_2xu7SNdTFhXY5HVSAgO1k36Hu2ba9t-mRea0VMiMZFWwDUR3vZO4MtL/exec";
@@ -167,87 +282,38 @@
     let senhaIndex = 0;
 
     function fazerLogin() {
-      const email = document.getElementById("email").value.trim();
-      const senha = document.getElementById("senhaLogin").value.trim();
-
-      fetch(`${scriptURL}?acao=login&email=${email}&senha=${senha}`, { method: "POST" })
-        .then(res => res.json())
-        .then(data => {
-          if (data.sucesso) {
-            dono = data.dono;
-            localStorage.setItem("usuarioLogado", dono);
-            document.getElementById("donoSpan").innerText = dono;
-            document.getElementById("login").classList.add("oculto");
-            document.getElementById("painel").classList.remove("oculto");
-            carregarRifas();
-            carregarSenhas();
-
-            setTimeout(() => {
-              if (!confirm("Deseja continuar conectado?")) {
-                fazerLogout();
-              }
-            }, 1000);
-
-          } else {
-            document.getElementById("mensagemLogin").innerText = "Login inválido";
-          }
-        });
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const usuarioSalvo = localStorage.getItem("usuarioLogado");
-      if (usuarioSalvo) {
-        dono = usuarioSalvo;
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senhaLogin").value.trim();
+  fetch(`${scriptURL}?acao=login&email=${email}&senha=${senha}`, { method: "POST" })
+    .then(res => res.json())
+    .then(data => {
+      if (data.sucesso) {
+        dono = data.dono;
         document.getElementById("donoSpan").innerText = dono;
         document.getElementById("login").classList.add("oculto");
         document.getElementById("painel").classList.remove("oculto");
         carregarRifas();
         carregarSenhas();
+
+        // ✅ Adiciona mensagem de permanência
+        setTimeout(() => {
+          if (!confirm("Deseja continuar conectado?")) {
+            fazerLogout();
+          }
+        }, 1000); // 1 segundo após login
+        localStorage.setItem("usuarioLogado", dono);
+
+      } else {
+        document.getElementById("mensagemLogin").innerText = "Login inválido";
       }
     });
+}
 
-    function fazerLogout() {
-      dono = "";
-      localStorage.removeItem("usuarioLogado");
-      document.getElementById("painel").classList.add("oculto");
-      document.getElementById("login").classList.remove("oculto");
-      document.getElementById("email").value = "";
-      document.getElementById("senhaLogin").value = "";
-      document.getElementById("mensagemLogin").innerText = "";
-      document.getElementById("listaRifas").innerHTML = "";
-      document.getElementById("senhaAtual").innerText = "---";
-      document.getElementById("todasSenhas").classList.add("oculto");
-      document.getElementById("todasSenhas").value = "";
-    }
-
-    function mostrarCadastro() {
-      document.getElementById("cadastro").classList.remove("oculto");
-      document.getElementById("login").scrollIntoView({ behavior: "smooth" });
-    }
-
-    function cadastrarDono() {
-      const email = document.getElementById("novoEmail").value.trim();
-      const senha = document.getElementById("novaSenha").value.trim();
-
-      if (!email.endsWith("@rifa.com") || senha.length !== 8) {
-        document.getElementById("msgCadastro").innerText = "❌ Email deve terminar com @rifa.com e senha com 8 dígitos.";
-        return;
-      }
-
-      fetch(`${scriptURL}?acao=cadastrarDono&email=${email}&senha=${senha}`, { method: "POST" })
-        .then(res => res.text())
-        .then(msg => {
-          document.getElementById("msgCadastro").innerText = msg;
-          document.getElementById("novoEmail").value = "";
-          document.getElementById("novaSenha").value = "";
-        });
-    }
 
     function criarRifa() {
       const nomeRifa = document.getElementById("nomeRifa").value.trim();
       const qtd = document.getElementById("quantidade").value;
       if (!nomeRifa || !qtd) return;
-
       fetch(`${scriptURL}?acao=criarRifa&dono=${dono}&qtd=${qtd}&nome=${nomeRifa}`, { method: "POST" })
         .then(res => res.text())
         .then(msg => {
@@ -272,7 +338,7 @@
               <summary>${nomeRifa}</summary>
               <div>
                 <a href="dashboard.html?rifa=${nomeCompleto}">🔗 Acessar link do comprador</a><br>
-                <button onclick="excluirRifa('${nomeCompleto}')" class="red">Excluir</button>
+                <button onclick="excluirRifa('${nomeCompleto}')" style="margin-top:5px; background:#dc3545; color:white;">Excluir</button>
               </div>
             `;
             container.appendChild(item);
@@ -323,27 +389,63 @@
         document.getElementById("todasSenhas").value = senhasDisponiveis.join("\n");
       }
     }
-    // Verifica se foi passado ?rifa= no URL
-window.addEventListener("DOMContentLoaded", () => {
+
+    function fazerLogout() {
+      dono = "";
+      document.getElementById("painel").classList.add("oculto");
+      document.getElementById("login").classList.remove("oculto");
+      document.getElementById("email").value = "";
+      document.getElementById("senhaLogin").value = "";
+      document.getElementById("mensagemLogin").innerText = "";
+      document.getElementById("listaRifas").innerHTML = "";
+      document.getElementById("senhaAtual").innerText = "---";
+      document.getElementById("todasSenhas").classList.add("oculto");
+      document.getElementById("todasSenhas").value = "";
+    }
+
+    function mostrarCadastro() {
+      document.getElementById("cadastro").classList.remove("oculto");
+      document.getElementById("login").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function cadastrarDono() {
+      const email = document.getElementById("novoEmail").value.trim();
+      const senha = document.getElementById("novaSenha").value.trim();
+      if (!email.endsWith("@rifa.com") || senha.length !== 8) {
+        document.getElementById("msgCadastro").innerHTML = "❌ Email deve terminar com @rifa.com e senha com 8 dígitos.";
+        return;
+      }
+      fetch(`${scriptURL}?acao=cadastrarDono&email=${email}&senha=${senha}`, { method: "POST" })
+        .then(res => res.text())
+        .then(msg => {
+          document.getElementById("msgCadastro").innerHTML = `<span class='sucesso'>${msg}</span>`;
+          document.getElementById("novoEmail").value = "";
+          document.getElementById("novaSenha").value = "";
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const rifa = params.get("rifa");
 
   if (rifa) {
-    document.getElementById("login").classList.add("oculto");
-    document.getElementById("cadastro").classList.add("oculto");
-    document.getElementById("painel").classList.add("oculto");
-    document.getElementById("paginaRifa").classList.remove("oculto");
+    document.getElementById("login")?.classList.add("oculto");
+    document.getElementById("cadastro")?.classList.add("oculto");
+    document.getElementById("painel")?.classList.add("oculto");
+    document.getElementById("paginaRifa")?.classList.remove("oculto");
 
-    const urlCliente = `${window.location.origin}/rifa/index.html?rifa=${rifa}`;
-    const urlSorteio = `${window.location.origin}/rifa/sorteio.html?rifa=${rifa}`;
+    const urlCliente = `${window.location.origin}/index.html?rifa=${rifa}`;
+const urlSorteio = `${window.location.origin}/sorteio.html?rifa=${rifa}`;
 
-    document.getElementById("infoRifaSelecionada").innerHTML = `
-      🔐 Rifa: <strong>${rifa}</strong><br><br>
-      🔗 Link do comprador:<br>
-      <a href="${urlCliente}" target="_blank">${urlCliente}</a><br><br>
-      🎰 Link do sorteio:<br>
-      <a href="${urlSorteio}" target="_blank">${urlSorteio}</a>
-    `;
+document.getElementById("infoRifaSelecionada").innerHTML = `
+  🔐 Rifa: <strong>${rifa}</strong><br><br>
+  🔗 Link do comprador:<br>
+  <a href="${urlCliente}" target="_blank">${urlCliente}</a><br><br>
+  🎰 Link do sorteio:<br>
+  <a href="${urlSorteio}" target="_blank">${urlSorteio}</a>
+`;
+
+
 
     const donoFormatado = rifa.replace(/^rifa-/, "").trim();
 
@@ -358,20 +460,23 @@ window.addEventListener("DOMContentLoaded", () => {
       .catch(() => {
         document.getElementById("senhasRifaSelecionada").value = "❌ Não foi possível encontrar a aba de senhas: senhas-" + donoFormatado;
       });
+      
   }
+  
 });
 
-function copiarSenhas() {
-  const textarea = document.getElementById("senhasRifaSelecionada");
-  textarea.select();
-  document.execCommand("copy");
-  alert("Senhas copiadas!");
-}
 
-function voltarParaPainel() {
-  window.location.href = window.location.pathname;
-}
 
+    function copiarSenhas() {
+      const textarea = document.getElementById("senhasRifaSelecionada");
+      textarea.select();
+      document.execCommand("copy");
+      alert("Senhas copiadas!");
+    }
+
+    function voltarParaPainel() {
+      window.location.href = window.location.pathname;
+    }
   </script>
 </body>
 </html>
